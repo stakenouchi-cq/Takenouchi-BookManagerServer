@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   post '/sign_up', to: 'users#sign_up'
   post '/login', to: 'users#login'
   post '/books', to: 'books#create'
+  put '/books/:id', to: 'books#update'
 end

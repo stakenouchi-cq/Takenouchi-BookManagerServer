@@ -13,6 +13,10 @@ class ApplicationController < ActionController::API
 		render json: {status: 200, result: BookSerializer.new(book)}, status: :ok
 	end
 
+	def success_edit_book(book)
+		render json: {status: 200, result: BookSerializer.new(book)}, status: :ok
+	end
+
 	def failed_request()
 		render json: {status: 401, message: "Request Error"}, status: :unprocessable_entity
 	end
