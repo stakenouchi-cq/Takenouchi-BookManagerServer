@@ -5,7 +5,7 @@ class UsersController < ApplicationController
     if user.save!
       success_sign_up(user)
     else
-      failed_request(user)
+      failed_request()
     end
   end
 
@@ -15,7 +15,7 @@ class UsersController < ApplicationController
     if user && user.authenticate(params[:password])
       success_login(user)
     else
-      failed_request(user)
+      failed_request()
     end
   end
 
