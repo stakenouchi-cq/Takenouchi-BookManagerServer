@@ -19,6 +19,17 @@ class BooksController < ApplicationController
     end
   end
 
+  def index
+    if params[:limit].blank? || params[:page].blank?
+      return # 両方のクエリパラメータを含む必要あり  
+    end
+    limit = params[:limit].to_i
+    page = params[:page].to_i
+
+    get_books(limit, page)
+
+  end
+
   private
     def set_book
       book = Book.find(params[:id])
