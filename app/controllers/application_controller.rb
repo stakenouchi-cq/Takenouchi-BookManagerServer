@@ -26,25 +26,17 @@ class ApplicationController < ActionController::API
 		render json: {status: 401, message: "Request Error"}, status: :unprocessable_entity
 	end
 
-	def failed_authentication()
-		render json: {status: 401, message: "Authentication Error"}, status: :unprocessable_entity
+	def authenticate
+		authenticate_token || failed_authentication
 	end
 
-
-	def require_login!
-		return true if authenticate_token
-		failed_authentication()
-	end
-
-	def current_user
-		@_current_user ||= authenticate_token
-	end
-
-	private 
+	private
 		def authenticate_token
-			authenticate_with_http_token do |token, options|
-				User.find_by(token: token)
-			end
+			user = User.find_by(token: request.headers['Authorization'])
+		end
+
+		def failed_authentication
+			render json: {status: 401, message: "Authentication Error"}, status: :unprocessable_entity
 		end
 
 end

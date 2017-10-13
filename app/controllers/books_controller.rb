@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [:show, :update]
+  before_action :authenticate, only: [:create, :update, :show, :index]
   
   def create
     book = Book.new(book_params)
