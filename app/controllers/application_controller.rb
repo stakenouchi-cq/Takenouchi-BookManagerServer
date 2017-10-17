@@ -14,7 +14,7 @@ class ApplicationController < ActionController::API
 		render json: {status: 200, result: books}, status: :ok
 	end
 
-	def failed_request()
+	def failed_request
 		render json: {status: 400, message: "Bad Request"}, status: :unprocessable_entity
 	end
 

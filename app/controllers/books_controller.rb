@@ -8,7 +8,7 @@ class BooksController < ApplicationController
     if book.save!
       success_book(book)
     else
-      failed_request()
+      failed_request
     end
   end
 
@@ -17,7 +17,7 @@ class BooksController < ApplicationController
     if book.update_attributes(book_params)
       success_book(book)
     else
-      failed_request()
+      failed_request
     end
   end
 
