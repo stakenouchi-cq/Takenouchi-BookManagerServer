@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   def sign_up
     user = User.new(user_params)
     if user.save!
-      success_sign_up(user)
+      success_user(user)
     else
       failed_request()
     end
@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     user = User.find_by(email: user_params[:email])
     # URLパラメータにあるpasswordを直接使う必要があるため、paramsにする 
     if user && user.authenticate(params[:password])
-      success_login(user)
+      success_user(user)
     else
       failed_request()
     end

@@ -1,19 +1,19 @@
 class BooksController < ApplicationController
-  before_action :authenticate, only: [:create, :update, :show, :index]
+  before_action :authenticate
   
   def create
-    book = Book.new(book_params)
+    book = @current_user.books.build(book_params)
     if book.save!
-      success_add_book(book)
+      success_book(book)
     else
       failed_request()
     end
   end
 
   def update
-    book = Book.find(params[:id])
-    if book.update(params[:book])
-      success_edit_book(book)
+    book = set_book
+    if book.update_attributes(book_params)
+      success_book(book)
     else
       failed_request()
     end
@@ -21,7 +21,7 @@ class BooksController < ApplicationController
 
   def index
     if params[:limit].blank? || params[:page].blank?
-      return # 両方のクエリパラメータを含む必要あり  
+      return # 両方のクエリパラメータが無ければ終了
     end
     limit = params[:limit].to_i
     page = params[:page].to_i
@@ -32,7 +32,7 @@ class BooksController < ApplicationController
 
   private
     def set_book
-      book = Book.find(params[:id])
+      book = @current_user.books.find(params[:id])
     end
 
     def book_params
