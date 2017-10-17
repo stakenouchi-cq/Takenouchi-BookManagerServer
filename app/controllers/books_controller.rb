@@ -1,5 +1,7 @@
 class BooksController < ApplicationController
+  include ImageHelper
   before_action :authenticate
+  before_action :convert_image_to_url
   
   def create
     book = @current_user.books.build(book_params)
@@ -32,11 +34,15 @@ class BooksController < ApplicationController
 
   private
     def set_book
-      book = @current_user.books.find(params[:id])
+      @current_user.books.find(params[:id])
     end
 
     def book_params
       params.permit(:name, :image, :price, :purchase_date)
+    end
+
+    def convert_image_to_url
+      params[:image] = upload_to_imgur(params[:image])
     end
 
 end
