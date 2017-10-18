@@ -44,5 +44,4 @@ class ApplicationController < ActionController::API
 			render json: {status: 401, message: "Unauthorized"}, status: :unauthorized
 		end
 
-	
 end
