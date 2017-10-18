@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::API
-	include ActionController::HttpAuthentication::Token::ControllerMethods
 
 	before_action :authenticate_token
 
@@ -12,8 +11,16 @@ class ApplicationController < ActionController::API
 	end
 
 	def get_books(limit, page)
+		total_count = @current_user.books.count # 書籍データの総数
 		books = @current_user.books.select('id, name, image, price, purchase_date').order(id: :desc).limit(limit).offset((page-1)*limit)
-		render json: {status: 200, result: books}, status: :ok
+		render json: {
+			status: 200,
+			result: books,
+			total_count: total_count,
+			total_pages: (total_count/limit)+1,
+			current_page: page,
+			limit: limit
+		}, status: :ok
 	end
 
 	def failed_request
