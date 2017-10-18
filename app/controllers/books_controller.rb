@@ -2,7 +2,7 @@ class BooksController < ApplicationController
   include ImageHelper
   before_action :authenticate
   before_action :convert_image_to_url
-  
+
   def create
     book = current_user.books.build(book_params)
     if book.save!

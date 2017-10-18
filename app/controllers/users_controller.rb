@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  
+
   def sign_up
     user = User.new(user_params)
     if user.save!
