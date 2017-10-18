@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::API
 	include ActionController::HttpAuthentication::Token::ControllerMethods
 
+	before_action :authenticate_token
+
 	def success_user(user)
 		render json: {status: 200, result: UserSerializer.new(user)}, status: :ok
 	end

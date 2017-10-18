@@ -9,16 +9,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def login
-    user = User.find_by(email: user_params[:email])
-    # URLパラメータにあるpasswordを直接使う必要があるため、paramsにする 
-    if user && user.authenticate(params[:password])
-      success_user(user)
-    else
-      failed_request
-    end
-  end
-
   private
     def user_params
       params.permit(:email, :password)
