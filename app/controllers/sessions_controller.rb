@@ -6,6 +6,8 @@ class SessionsController < ApplicationController
     return invalid_email unless user
 
     if user.valid_password?(params[:password])
+      user.update_token
+      sign_in(user)
       success_user(user)
     else
       failed_request
@@ -14,8 +16,9 @@ class SessionsController < ApplicationController
 
   def destroy
   	if user_signed_in?
-  		sign_out(@current_user)
-  		render json: {status: 200}, status: :ok
+      current_user.trash_token
+      sign_out(current_user)
+      render json: {status: 200}, status: :ok
   	end
   end
 
@@ -26,7 +29,7 @@ class SessionsController < ApplicationController
 
     def invalid_email
       warden.custom_failure!
-      render json: { error: t('invalid_email') }
+      render json: {status: 421, message: "email invalid"}, status: :misdirected_request
     end
 
 end

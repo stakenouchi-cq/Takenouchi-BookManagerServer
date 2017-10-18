@@ -2,6 +2,8 @@ class ApplicationController < ActionController::API
 
 	before_action :authenticate_token
 
+	respond_to :json
+
 	def success_user(user)
 		render json: {status: 200, result: UserSerializer.new(user)}, status: :ok
 	end
@@ -11,13 +13,13 @@ class ApplicationController < ActionController::API
 	end
 
 	def get_books(limit, page)
-		total_count = @current_user.books.count # 書籍データの総数
-		books = @current_user.books.select('id, name, image, price, purchase_date').order(id: :desc).limit(limit).offset((page-1)*limit)
+		total_count = current_user.books.count # 書籍データの総数
+		books = current_user.books.select('id, name, image, price, purchase_date').order(id: :desc).limit(limit).offset((page-1)*limit)
 		render json: {
 			status: 200,
 			result: books,
 			total_count: total_count,
-			total_pages: (total_count/limit)+1,
+			total_pages: (total_count/limit) + 1,
 			current_page: page,
 			limit: limit
 		}, status: :ok
@@ -33,7 +35,9 @@ class ApplicationController < ActionController::API
 
 	private
 		def authenticate_token
-			@current_user = User.find_by(token: request.headers[:Authorization])
+			user = User.find_by(token: request.headers[:Authorization])
+			# セッション内でユーザーを不保持 (リクエスト時に毎回tokenが必要)
+			sign_in(user, store: false) if user.present?
 		end
 
 		def failed_authentication

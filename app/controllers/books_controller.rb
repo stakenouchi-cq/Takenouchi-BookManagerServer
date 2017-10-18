@@ -4,7 +4,7 @@ class BooksController < ApplicationController
   before_action :convert_image_to_url
   
   def create
-    book = @current_user.books.build(book_params)
+    book = current_user.books.build(book_params)
     if book.save!
       success_book(book)
     else
@@ -34,7 +34,7 @@ class BooksController < ApplicationController
 
   private
     def set_book
-      @current_user.books.find(params[:id])
+      current_user.books.find(params[:id])
     end
 
     def book_params
