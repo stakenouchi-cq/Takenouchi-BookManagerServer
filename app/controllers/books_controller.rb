@@ -31,7 +31,7 @@ class BooksController < ApplicationController
     @books = current_user.books.select('id, name, image, price, purchase_date').order(id: :desc).limit(limit).offset((page-1)*limit)
     render json: {
       status: 200,
-      result: @books.map{|book| book.render_json},
+      result: @books.map{|book| BookSerializer.new(book)},
       total_count: total_count,
       total_pages: (total_count / limit) + 1,
       current_page: page,
