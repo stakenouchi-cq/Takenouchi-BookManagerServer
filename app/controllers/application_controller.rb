@@ -4,12 +4,12 @@ class ApplicationController < ActionController::API
 
   respond_to :json
 
-  def success_user(user)
-    render json: {status: 200, result: UserSerializer.new(user)}, status: :ok
+  def render_ok(object)
+    render json: {status: 200, result: object}, status: :ok
   end
 
-  def success_book(book)
-    render json: {status: 200, result: BookSerializer.new(book)}, status: :ok
+  def render_ng
+    render json: {status: 400, message: "Bad Request"}, status: :unprocessable_entity
   end
 
   def get_books(limit, page)
@@ -23,10 +23,6 @@ class ApplicationController < ActionController::API
       current_page: page,
       limit: limit
     }, status: :ok
-  end
-
-  def failed_request
-    render json: {status: 400, message: "Bad Request"}, status: :unprocessable_entity
   end
 
   def authenticate

@@ -6,18 +6,18 @@ class BooksController < ApplicationController
   def create
     book = current_user.books.build(book_params)
     if book.save!
-      success_book(book)
+      render_ok(BookSerializer.new(book))
     else
-      failed_request
+      render_ng
     end
   end
 
   def update
     book = set_book
     if book.update_attributes(book_params)
-      success_book(book)
+      render_ok(BookSerializer.new(book))
     else
-      failed_request
+      render_ng
     end
   end
 

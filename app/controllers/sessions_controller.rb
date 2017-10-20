@@ -8,9 +8,9 @@ class SessionsController < ApplicationController
     if user.valid_password?(params[:password])
       user.update_token
       sign_in(user)
-      success_user(user)
+      render_ok(UserSerializer.new(user))
     else
-      failed_request
+      render_ng
     end
   end
 

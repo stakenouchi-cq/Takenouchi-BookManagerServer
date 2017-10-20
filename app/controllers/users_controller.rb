@@ -3,9 +3,9 @@ class UsersController < ApplicationController
   def sign_up
     user = User.new(user_params)
     if user.save!
-      success_user(user)
+      render_ok(UserSerializer.new(user))
     else
-      failed_request
+      render_ng
     end
   end
 
