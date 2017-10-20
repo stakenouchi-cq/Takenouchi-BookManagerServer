@@ -31,5 +31,4 @@ class SessionsController < ApplicationController
       warden.custom_failure!
       render json: {status: 421, message: "email invalid"}, status: :misdirected_request
     end
-
 end

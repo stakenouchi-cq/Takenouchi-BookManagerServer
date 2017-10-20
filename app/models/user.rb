@@ -20,5 +20,4 @@ class User < ApplicationRecord
     # ログアウト時にトークンを破棄
     self.update(token: nil)
   end
-
 end

@@ -2,7 +2,6 @@ require 'httpclient'
 
 module ImageHelper
   URL = 'https://api.imgur.com/3/image'.freeze
-
   def upload_to_imgur(image_string)
     begin
       http_client = HTTPClient.new
@@ -17,5 +16,4 @@ module ImageHelper
       puts("JSON ParserError: #{e}")
     end
   end
-
 end

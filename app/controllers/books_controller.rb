@@ -4,6 +4,8 @@ class BooksController < ApplicationController
   before_action :set_book, only: [:update]
   before_action :convert_image_to_url, only: [:create, :update]
 
+  DEFAULT_LIMIT = 20.freeze
+
   def create
     @book = current_user.books.build(book_params)
     if @book.save
@@ -20,12 +22,12 @@ class BooksController < ApplicationController
       render_bad_request
     end
   end
-
+  
   def index
-    limit = params[:limit].presence || 20
+    limit = params[:limit].presence || DEFAULT_LIMIT
     page = params[:page].presence || 1
     @books = current_user.books.order(id: :desc).page(page).per(limit)
-    
+
     render json: {
       status: 200,
       result: @books.map{|book| BookSerializer.new(book)},
@@ -34,7 +36,6 @@ class BooksController < ApplicationController
       current_page: @books.total_count,
       limit: @books.limit_value
     }, status: :ok
-
   end
 
   private
@@ -49,5 +50,4 @@ class BooksController < ApplicationController
     def convert_image_to_url
       params[:image] = upload_to_imgur(params[:image])
     end
-
 end
