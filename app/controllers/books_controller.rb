@@ -9,7 +9,7 @@ class BooksController < ApplicationController
     if @book.save
       render_ok(BookSerializer.new(@book))
     else
-      render_ng
+      render_bad_request
     end
   end
 
@@ -17,7 +17,7 @@ class BooksController < ApplicationController
     if @book.update(book_params)
       render_ok(BookSerializer.new(@book))
     else
-      render_ng
+      render_bad_request
     end
   end
 

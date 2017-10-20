@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
       sign_in(user)
       render_ok(UserSerializer.new(user))
     else
-      render_ng
+      render_bad_request
     end
   end
 
