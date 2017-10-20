@@ -24,16 +24,15 @@ class BooksController < ApplicationController
   def index
     limit = params[:limit].presence || 20
     page = params[:page].presence || 1
-
-    total_count = current_user.books.count # 書籍データの総数
     @books = current_user.books.order(id: :desc).page(page).per(limit)
+    
     render json: {
       status: 200,
       result: @books.map{|book| BookSerializer.new(book)},
-      total_count: total_count,
-      total_pages: (total_count / limit) + 1,
-      current_page: page,
-      limit: limit
+      total_count: @books.total_count,
+      total_pages: @books.total_pages,
+      current_page: @books.total_count,
+      limit: @books.limit_value
     }, status: :ok
 
   end
