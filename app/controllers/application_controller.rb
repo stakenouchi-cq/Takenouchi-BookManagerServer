@@ -12,19 +12,6 @@ class ApplicationController < ActionController::API
     render json: {status: 400, message: "Bad Request"}, status: :unprocessable_entity
   end
 
-  def get_books(limit, page)
-    total_count = current_user.books.count # 書籍データの総数
-    books = current_user.books.select('id, name, image, price, purchase_date').order(id: :desc).limit(limit).offset((page-1)*limit)
-    render json: {
-      status: 200,
-      result: books,
-      total_count: total_count,
-      total_pages: (total_count/limit) + 1,
-      current_page: page,
-      limit: limit
-    }, status: :ok
-  end
-
   def authenticate
     authenticate_token || failed_authentication
   end

@@ -27,8 +27,16 @@ class BooksController < ApplicationController
     end
     limit = params[:limit].to_i
     page = params[:page].to_i
-
-    get_books(limit, page)
+    total_count = current_user.books.count # 書籍データの総数
+    @books = current_user.books.select('id, name, image, price, purchase_date').order(id: :desc).limit(limit).offset((page-1)*limit)
+    render json: {
+      status: 200,
+      result: @books.map{|book| book.render_json},
+      total_count: total_count,
+      total_pages: (total_count / limit) + 1,
+      current_page: page,
+      limit: limit
+    }, status: :ok
 
   end
 
