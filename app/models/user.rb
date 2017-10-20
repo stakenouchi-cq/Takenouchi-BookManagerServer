@@ -1,8 +1,7 @@
 class User < ApplicationRecord
   # Include default devise modules.
   has_many :books
-  devise :database_authenticatable, :registerable,
-          :recoverable, :rememberable, :trackable, :validatable
+  devise :database_authenticatable, :Rememberable
 
   before_save {self.email = email.downcase}
   after_create :update_token

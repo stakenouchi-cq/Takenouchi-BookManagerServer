@@ -28,7 +28,7 @@ class BooksController < ApplicationController
     limit = params[:limit].to_i
     page = params[:page].to_i
     total_count = current_user.books.count # 書籍データの総数
-    @books = current_user.books.select('id, name, image, price, purchase_date').order(id: :desc).limit(limit).offset((page-1)*limit)
+    @books = current_user.books.order(id: :desc).limit(limit).offset((page-1)*limit)
     render json: {
       status: 200,
       result: @books.map{|book| BookSerializer.new(book)},
