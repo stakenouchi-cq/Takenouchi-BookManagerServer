@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
   include ImageHelper
-  before_action :authenticate
+  before_action :authenticate_user!
   before_action :set_book, only: [:update]
   before_action :convert_image_to_url, only: [:create, :update]
 

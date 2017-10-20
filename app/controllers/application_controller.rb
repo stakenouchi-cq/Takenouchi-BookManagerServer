@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
 
-  before_action :authenticate_token
+  before_action :authenticate_from_token
 
   respond_to :json
 
@@ -10,10 +10,6 @@ class ApplicationController < ActionController::API
 
   def render_bad_request
     render json: {status: 400, message: "Bad Request"}, status: :bad_request
-  end
-
-  def authenticate
-    authenticate_from_token || render_unauthorized
   end
 
   private

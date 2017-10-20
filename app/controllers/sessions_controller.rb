@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :authenticate, only: [:destroy]
+  before_action :authenticate_user!, only: [:destroy]
 
   def create
     user = User.find_for_database_authentication(email: params[:email])
