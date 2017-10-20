@@ -22,7 +22,7 @@ class BooksController < ApplicationController
       render_bad_request
     end
   end
-  
+
   def index
     limit = params[:limit].presence || DEFAULT_LIMIT
     page = params[:page].presence || 1
@@ -30,7 +30,7 @@ class BooksController < ApplicationController
 
     render json: {
       status: 200,
-      result: @books.map{|book| BookSerializer.new(book)},
+      result: @books.map{ |book| BookSerializer.new(book) },
       total_count: @books.total_count,
       total_pages: @books.total_pages,
       current_page: @books.total_count,

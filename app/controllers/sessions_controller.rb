@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
     if user_signed_in?
       current_user.trash_token
       sign_out(current_user)
-      render json: {status: 200}, status: :ok
+      render json: { status: 200 }, status: :ok
     end
   end
 
@@ -29,6 +29,6 @@ class SessionsController < ApplicationController
 
     def invalid_email
       warden.custom_failure!
-      render json: {status: 421, message: "email invalid"}, status: :misdirected_request
+      render json: { status: 421, message: "email invalid" }, status: :misdirected_request
     end
 end

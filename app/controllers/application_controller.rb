@@ -5,11 +5,11 @@ class ApplicationController < ActionController::API
   respond_to :json
 
   def render_ok(object)
-    render json: {status: 200, result: object}, status: :ok
+    render json: { status: 200, result: object }, status: :ok
   end
 
   def render_bad_request
-    render json: {status: 400, message: "Bad Request"}, status: :bad_request
+    render json: { status: 400, message: "Bad Request" }, status: :bad_request
   end
 
   private
@@ -20,6 +20,6 @@ class ApplicationController < ActionController::API
     end
 
     def render_unauthorized
-      render json: {status: 401, message: "Unauthorized"}, status: :unauthorized
+      render json: { status: 401, message: "Unauthorized" }, status: :unauthorized
     end
 end

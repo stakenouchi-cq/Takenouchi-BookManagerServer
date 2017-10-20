@@ -3,13 +3,13 @@ class User < ApplicationRecord
   has_many :books
   devise :database_authenticatable, :Rememberable
 
-  before_save {self.email = email.downcase}
+  before_save { self.email = email.downcase }
   after_create :update_token
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, format: {with: VALID_EMAIL_REGEX},
-        uniqueness: {case_sensitive: false}, length: {maximum: 50}
-  validates :password, presence: true, length: {minimum: 6}
+        uniqueness: { case_sensitive: false }, length: { maximum: 50 }
+  validates :password, presence: true, length: { minimum: 6 }
 
   def update_token
     # アカウント新規作成時やログアウト後によりトークンがnullであれば、新たなトークンを生成
