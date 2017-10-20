@@ -5,7 +5,7 @@ class BooksController < ApplicationController
 
   def create
     book = current_user.books.build(book_params)
-    if book.save!
+    if book.save
       render_ok(BookSerializer.new(book))
     else
       render_ng
@@ -14,7 +14,7 @@ class BooksController < ApplicationController
 
   def update
     book = set_book
-    if book.update_attributes(book_params)
+    if book.update(book_params)
       render_ok(BookSerializer.new(book))
     else
       render_ng
@@ -23,7 +23,7 @@ class BooksController < ApplicationController
 
   def index
     if params[:limit].blank? || params[:page].blank?
-      return # 両方のクエリパラメータが無ければ終了
+      render_ng
     end
     limit = params[:limit].to_i
     page = params[:page].to_i
