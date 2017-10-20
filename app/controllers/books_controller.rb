@@ -22,13 +22,11 @@ class BooksController < ApplicationController
   end
 
   def index
-    if params[:limit].blank? || params[:page].blank?
-      render_ng
-    end
-    limit = params[:limit].to_i
-    page = params[:page].to_i
+    limit = params[:limit].presence || 20
+    page = params[:page].presence || 1
+
     total_count = current_user.books.count # 書籍データの総数
-    @books = current_user.books.order(id: :desc).limit(limit).offset((page-1)*limit)
+    @books = current_user.books.order(id: :desc).page(page).per(limit)
     render json: {
       status: 200,
       result: @books.map{|book| BookSerializer.new(book)},
