@@ -1,21 +1,21 @@
 class BooksController < ApplicationController
   include ImageHelper
   before_action :authenticate
-  before_action :convert_image_to_url
+  before_action :set_book, only: [:update]
+  before_action :convert_image_to_url, only: [:create, :update]
 
   def create
-    book = current_user.books.build(book_params)
-    if book.save
-      render_ok(BookSerializer.new(book))
+    @book = current_user.books.build(book_params)
+    if @book.save
+      render_ok(BookSerializer.new(@book))
     else
       render_ng
     end
   end
 
   def update
-    book = set_book
-    if book.update(book_params)
-      render_ok(BookSerializer.new(book))
+    if @book.update(book_params)
+      render_ok(BookSerializer.new(@book))
     else
       render_ng
     end
@@ -34,7 +34,7 @@ class BooksController < ApplicationController
 
   private
     def set_book
-      current_user.books.find(params[:id])
+      @book = current_user.books.find(params[:id])
     end
 
     def book_params
