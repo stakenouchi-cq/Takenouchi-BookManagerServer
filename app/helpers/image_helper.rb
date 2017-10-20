@@ -5,7 +5,7 @@ module ImageHelper
   def upload_to_imgur(image_string)
     begin
       http_client = HTTPClient.new
-      auth_header = { 'Authorization' => 'Client-ID 61073815e3d76a2' }
+      auth_header = { 'Authorization' => "Client-ID #{ENV["IMGUR_CLIENT_ID"]}" }
       parameters = { :image => image_string, :type => 'base64' }
       res = http_client.post(URI.parse(URL), parameters, auth_header)
       result_hash = JSON.load(res.body)

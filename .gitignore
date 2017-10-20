@@ -22,3 +22,6 @@ doc/
 .DS_Store
 .idea
 .secret
+
+# Ignore secret key files.
+/.env
