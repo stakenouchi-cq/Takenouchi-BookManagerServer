@@ -11,6 +11,10 @@ class ApplicationController < ActionController::API
   def render_bad_request
     render json: { status: 400, message: "Bad Request" }, status: :bad_request
   end
+  
+  def render_internal_server_error
+    render json: { status: 500, message: "Internal Server Error" }, status: :internal_server_error
+  end
 
   private
     def authenticate_from_token
