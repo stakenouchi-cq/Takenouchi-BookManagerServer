@@ -1,3 +1,5 @@
+# Source: https://railstutorial.jp/chapters/beginning?version=4.0#code-gitignore
+
 # Ignore bundler config.
 /.bundle
 
@@ -20,3 +22,6 @@ doc/
 .DS_Store
 .idea
 .secret
+
+# Ignore secret key files.
+/.env
