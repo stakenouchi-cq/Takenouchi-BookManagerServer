@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   before_action :authenticate_user!, only: [:destroy]
 
   def create
-    user = User.find_for_database_authentication(email: params[:email])
+    user = User.find_for_database_authentication(email: user_params[:email])
     return invalid_email unless user
 
     if user.valid_password?(params[:password])
@@ -15,11 +15,9 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    if user_signed_in?
-      current_user.trash_token
-      sign_out(current_user)
-      render json: { status: 200 }, status: :ok
-    end
+    current_user.trash_token
+    sign_out(current_user)
+    render json: { status: 200 }, status: :ok
   end
 
   private
