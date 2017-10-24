@@ -4,7 +4,5 @@ Rails.application.routes.draw do
   post '/sign_up', to: 'users#sign_up'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
-  post '/books', to: 'books#create'
-  get '/books', to: 'books#index'
-  put '/books/:id', to: 'books#update'
+  resources :books, only: [:create, :index, :update]
 end
