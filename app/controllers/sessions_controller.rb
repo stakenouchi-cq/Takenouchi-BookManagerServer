@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     return invalid_email unless user
 
     if user.valid_password?(params[:password])
-      user.update_token
+      user.ensure_token
       sign_in(user)
       render_ok(UserSerializer.new(user))
     else

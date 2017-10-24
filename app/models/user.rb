@@ -4,12 +4,20 @@ class User < ApplicationRecord
   devise :database_authenticatable, :Rememberable
 
   before_save { self.email = email.downcase }
-  after_create :update_token
+  after_create :generate_token # ユーザー新規作成後、トークンを生成
 
-  def update_token
-    # アカウント新規作成時やログアウト後によりトークンがnullであれば、新たなトークンを生成
-    unless self.update( token: self.token || SecureRandom.urlsafe_base64(n=30) )
-      render_internal_server_error # サーバー内部のエラーでトークン更新失敗    
+  def ensure_token
+    # トークンが、nilでないかチェックを行う
+    # nilであれば、トークンの生成を行う(nilでなければ、トークンに変更を加えず終了)
+    self.token || generate_token
+  end
+
+  def generate_token
+    loop do
+      current_token = self.token
+      new_token = SecureRandom.urlsafe_base64(30).tr('lIO0', 'sxyz')
+      # トークンの更新に成功し、前のトークンと違うものになっていれば成功なので、終了
+      break new_token if (self.update!(token: new_token) rescue false) && current_token != new_token
     end
   end
 
